@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	sio_open(argc, argv);
 	
 	// do the assembly
-	// asm_assemble(flagv);
+	asm_assemble(flagv);
 	
 	// all done
 	sio_close();
