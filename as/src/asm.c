@@ -3,7 +3,7 @@
  *
  * assembler guts
  */
- #include "asm.h"
+#include "asm.h"
 #include "sio.h"
 
 char token_buf[TOKEN_BUF_SIZE];
@@ -83,6 +83,57 @@ char asm_token_read()
 	asm_wskip();
 	
 	return out;
+}
+
+/*
+ * expects a specific symbol
+ * some symbols have special cases for ignoring trailing or leading line breaks
+ *
+ * c = symbol to expect
+ */
+void asm_expect(char c)
+{
+	char tok;
+	
+	if (c == '}') {
+		while (sio_peek() == '\n')
+			asm_token_read();
+	}
+	
+	tok = asm_token_read();
+	
+	if (tok != c) {
+		asm_error ("unexpected character");
+	}
+	
+	if (c == '{' || c == ',') {
+		while (sio_peek() == '\n')
+			asm_token_read();
+	}
+}
+
+/*
+ * consumes an end of line
+ */
+void asm_eol()
+{
+	char tok;
+	
+	tok = asm_token_read();
+	if (tok != 'n' && tok != -1)
+		asm_error("expected end of line");
+}
+
+/*
+ * skips to and consumes an end of line
+ */
+void asm_skip()
+{
+	char tok;
+	
+	do {
+		tok = asm_token_read();
+	} while (tok != 'n' && tok != -1);
 }
 
 void asm_assemble(char flagv) {
