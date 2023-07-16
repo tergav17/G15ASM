@@ -3,6 +3,8 @@
 
 /* includes */
 #include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 /* defines */
 #define TOKEN_BUF_SIZE 19

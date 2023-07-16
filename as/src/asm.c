@@ -9,6 +9,19 @@
 char token_buf[TOKEN_BUF_SIZE];
 
 /*
+ * prints out an error message and exits
+ *
+ * msg = error message
+ */
+void asm_error(char *msg)
+{
+	sio_status();
+	printf(": %s\n", msg);
+	sio_close();
+	exit(1);
+}
+
+/*
  * skips past all of the white space to a token
  */
 void asm_wskip()
